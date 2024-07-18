@@ -13,7 +13,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Producto::all(), 200);
     }
 
     /**
@@ -21,7 +21,18 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $datos = $request->validate([
+            "nombre" => ["required", "string", "max:100"],
+            "descripcion" => ["nullable", "string", "max:255"],
+            "precio" => ["required", "integer", "min:1000"],
+            "stock" => ["required", "integer", "min:1"],
+        ]);
+
+        $producto = Producto::create($datos);
+        return response()->json([
+            "mensaje" => "Producto creado exitosamente",
+            "producto" => $producto,
+        ], 201);
     }
 
     /**
@@ -29,7 +40,7 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
-        //
+        return response()->json($producto, 200);
     }
 
     /**
@@ -37,7 +48,18 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        //
+        $datos = $request->validate([
+            "nombre" => ["required", "string", "max:100"],
+            "descripcion" => ["nullable", "string", "max:255"],
+            "precio" => ["required", "integer", "min:1000"],
+            "stock" => ["required", "integer", "min:1"],
+        ]);
+
+        $producto->update($datos);
+        return response()->json([
+            "mensaje" => "Producto actualizado",
+            "producto" => $producto,
+        ], 200);
     }
 
     /**
@@ -45,6 +67,10 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        //
+        $producto->delete();
+        return response()->noContent();
     }
 }
+
+
+
