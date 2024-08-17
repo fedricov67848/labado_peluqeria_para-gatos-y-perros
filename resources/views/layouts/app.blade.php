@@ -16,6 +16,9 @@
     </header>
 
     <main>
+        <div>
+            <h1> @yield("cabecera")</h1>
+        </div>
   @yield("contenido")
     </main>
 
